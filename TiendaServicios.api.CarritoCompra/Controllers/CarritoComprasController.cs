@@ -16,7 +16,7 @@ namespace TiendaServicios.api.CarritoCompra.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Unit>> Crear(Nuevo.Ejecuta data)
+        public async Task<ActionResult<int>> Crear(Nuevo.Ejecuta data)
         {
             return await _mediator.Send(data);
         }
@@ -25,6 +25,12 @@ namespace TiendaServicios.api.CarritoCompra.Controllers
         public async Task<ActionResult<CarritoDto>> GetCarrito(int id)
         {
             return await _mediator.Send(new Consulta.Ejecuta { CarritoSessionId = id });
+        }
+
+        [HttpPut]
+        public async Task<ActionResult<Unit>> Actualizar(Actualizar.Ejecuta data)
+        {
+            return await _mediator.Send(data);
         }
     }
 }

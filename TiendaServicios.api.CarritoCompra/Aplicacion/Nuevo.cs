@@ -6,13 +6,13 @@ namespace TiendaServicios.api.CarritoCompra.Aplicacion
 {
     public class Nuevo
     {
-        public class Ejecuta : IRequest
+        public class Ejecuta : IRequest<int>
         {
             public DateTime FechaCreacionSesion { get; set; }
             public List<string> ProductoLista { get; set; }
         }
 
-        public class Manejador : IRequestHandler<Ejecuta>
+        public class Manejador : IRequestHandler<Ejecuta, int>
         {
             private readonly CarritoContexto _contexto;
 
@@ -21,7 +21,7 @@ namespace TiendaServicios.api.CarritoCompra.Aplicacion
                 _contexto = contexto;
             }
 
-            public async Task<Unit> Handle(Ejecuta request, CancellationToken cancellationToken)
+            public async Task<int> Handle(Ejecuta request, CancellationToken cancellationToken)
             {
                 //se crea sesion de carrito al querer comprar los libros
                 var carritoSesion = new CarritoSesion
@@ -53,7 +53,7 @@ namespace TiendaServicios.api.CarritoCompra.Aplicacion
                 var value = await _contexto.SaveChangesAsync();
                 if(value > 0)
                 {
-                    return Unit.Value;
+                    return id;
                 }
                 throw new Exception("No se pudo insertar el detalle del carrito de compras");
             }
