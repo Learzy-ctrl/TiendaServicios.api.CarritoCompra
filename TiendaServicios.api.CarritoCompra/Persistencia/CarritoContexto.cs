@@ -9,5 +9,6 @@ namespace TiendaServicios.api.CarritoCompra.Persistencia
 
         public DbSet<CarritoSesion> carritoSesions { get; set; }
         public DbSet<CarritoSesionDetalle> carritoSesionDetalles { get; set; }
+
     }
 }

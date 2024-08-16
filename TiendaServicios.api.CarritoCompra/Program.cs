@@ -23,7 +23,7 @@ builder.Services.AddCors(options =>
         builder
             .AllowAnyOrigin()
             .AllowAnyMethod()
-        .AllowAnyHeader();
+            .AllowAnyHeader();
     });
 });
 
@@ -31,7 +31,7 @@ builder.Services.AddControllers().AddFluentValidation(cfg => cfg.RegisterValidat
 builder.Services.AddDbContext<CarritoContexto>(options =>
 {
     string connection = builder.Configuration.GetConnectionString("DefaultConnection");
-    options.UseSqlServer(connection);
+    options.UseMySql(connection, new MySqlServerVersion(new Version (8,0,0)));
 });
 builder.Services.AddMediatR(typeof(Nuevo.Manejador).Assembly);
 builder.Services.AddAutoMapper(typeof(Consulta.Manejador));

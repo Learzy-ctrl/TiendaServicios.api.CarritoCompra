@@ -1,22 +1,28 @@
-# Usar la imagen oficial de .NET 7 SDK para construir la aplicación
+# Establecer la imagen base para el SDK de .NET
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build-env
+
+# Establecer el directorio de trabajo
 WORKDIR /app
 
-# Copiar los archivos csproj y restaurar las dependencias
-COPY *.csproj ./
-RUN dotnet restore
+# Copiar el archivo .csproj y restaurar las dependencias
+COPY TiendaServicios.api.CarritoCompra/*.csproj ./TiendaServicios.api.CarritoCompra/
+RUN dotnet restore TiendaServicios.api.CarritoCompra/TiendaServicios.api.CarritoCompra.csproj
 
-# Copiar el resto de los archivos y compilar la aplicación
-COPY . ./
-RUN dotnet publish -c Release -o out
+# Copiar el resto de los archivos y construir la aplicación
+COPY TiendaServicios.api.CarritoCompra/ ./TiendaServicios.api.CarritoCompra/
+WORKDIR /app/TiendaServicios.api.CarritoCompra
+RUN dotnet build -c Release -o /app/build
 
-# Usar la imagen oficial de .NET 7 Runtime para ejecutar la aplicación
+# Establecer la imagen base para el runtime de .NET
 FROM mcr.microsoft.com/dotnet/aspnet:7.0
+
+# Establecer el directorio de trabajo
 WORKDIR /app
-COPY --from=build-env /app/out .
 
-# Exponer el puerto en el que la aplicación escuchará
+# Copiar los archivos de la compilación desde el contenedor anterior
+COPY --from=build-env /app/build .
+
+# Exponer el puerto y ejecutar la aplicación
 EXPOSE 80
-
-# Definir el comando para ejecutar la aplicación
 ENTRYPOINT ["dotnet", "TiendaServicios.api.CarritoCompra.dll"]
+

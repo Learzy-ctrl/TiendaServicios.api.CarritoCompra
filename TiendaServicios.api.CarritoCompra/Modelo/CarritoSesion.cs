@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace TiendaServicios.api.CarritoCompra.Modelo
 {
@@ -6,7 +7,7 @@ namespace TiendaServicios.api.CarritoCompra.Modelo
     {
         [Key]
         public int CarritoSesionId { get; set; }
-        public DateTime? FechaCreacion {  get; set; }
+        public DateTime FechaCreacion {  get; set; }
         public ICollection<CarritoSesionDetalle> ListaDetalle {  get; set; }
     }
 }
